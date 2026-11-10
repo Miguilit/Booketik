@@ -1,0 +1,38 @@
+
+name: BOOKETIK R3-B8-O4 Locale & Pro Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout private BOOKETIK build repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Extract O4 guarded build kit
+        run: |
+          unzip -q BOOKETIK_R3B8O4_LOCALE_PRO_BUILD_KIT_20261110.zip
+
+      - name: Compile frontend, SSR and locales
+        run: |
+          bash o4kit/build.sh \
+            "$GITHUB_WORKSPACE/BOOKETIK_R3B8O2_FRONTEND_BUILD_SOURCE_20261109T133219Z.tar.gz" \
+            "$GITHUB_WORKSPACE"
+
+      - name: Upload verified build
+        uses: actions/upload-artifact@v4
+        with:
+          name: booketik-r3b8o4-compiled
+          path: |
+            BOOKETIK_R3B8O4_COMPILED_FOR_HOSTINGER_20261110.tar.gz
+            BOOKETIK_R3B8O4_COMPILED_FOR_HOSTINGER_20261110.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 7
