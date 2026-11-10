@@ -1,0 +1,44 @@
+
+name: BOOKETIK R3-B8-O4-N3 Section Titles FR-NL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify archives
+        run: |
+          echo '181cbe78ccfa1668c0fb8efec4377ad0faf9980cb42bb9bc38fedb5ed361a92f  BOOKETIK_R3B8O2_FRONTEND_BUILD_SOURCE_20261109T133219Z.tar.gz' | sha256sum -c -
+          echo 'ecb59ba4b1d781bf934f781a63b1704798435b8b3fdd11c173ca4cf320cfb3e4  BOOKETIK_R3B8O4_N3_HOMEPAGE_SECTION_I18N_BUILD_KIT_20261110.zip' | sha256sum -c -
+
+      - name: Extract N3 kit
+        run: unzip -q BOOKETIK_R3B8O4_N3_HOMEPAGE_SECTION_I18N_BUILD_KIT_20261110.zip
+
+      - name: Build frontend and SSR
+        run: |
+          bash n3kit/build.sh \
+            "$GITHUB_WORKSPACE/BOOKETIK_R3B8O2_FRONTEND_BUILD_SOURCE_20261109T133219Z.tar.gz" \
+            "$GITHUB_WORKSPACE"
+
+      - name: Upload compiled artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: booketik-r3b8o4-n3-compiled
+          path: |
+            BOOKETIK_R3B8O4_N3_SECTION_I18N_COMPILED_20261110.tar.gz
+            BOOKETIK_R3B8O4_N3_SECTION_I18N_COMPILED_20261110.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 7
