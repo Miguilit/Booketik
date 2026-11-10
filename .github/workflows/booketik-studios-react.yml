@@ -1,0 +1,37 @@
+
+name: BOOKETIK Studios S2 T2 React
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Unpack source overlay
+        run: unzip -q BOOKETIK_STUDIOS_REACT_S2T2_20261110.zip -d .
+
+      - name: Compile client and SSR
+        run: bash BOOKETIK_STUDIOS_REACT_S2T2_20261110/scripts/build_frontend.sh "$GITHUB_WORKSPACE"
+
+      - name: Upload compiled package
+        uses: actions/upload-artifact@v4
+        with:
+          name: booketik-studios-s2t2-compiled
+          path: |
+            BOOKETIK_STUDIOS_S2T2_COMPILED_20261110.tar.gz
+            BOOKETIK_STUDIOS_S2T2_COMPILED_20261110.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 7
