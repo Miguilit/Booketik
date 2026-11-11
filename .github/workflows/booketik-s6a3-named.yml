@@ -1,0 +1,81 @@
+
+name: BOOKETIK S6A3 Named Venue Configurations
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate source archives
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for kit in \
+            BOOKETIK_S4C_CRUD_20261111 \
+            BOOKETIK_S5C_GEOMETRY_SOURCE_20261111 \
+            BOOKETIK_S5D_AUTO_SEATING_SOURCE_20261111 \
+            BOOKETIK_S6A_PUBLICATION_SOURCE_20261111 \
+            BOOKETIK_S6A2_HISTORY_SOURCE_20261111 \
+            BOOKETIK_S6A3_NAMED_CONFIGS_SOURCE_20261111
+          do
+            unzip -tq "$kit.zip"
+            unzip -q "$kit.zip" -d .
+          done
+
+          test -s BOOKETIK_FRONTEND_CURRENT_SOURCE.tar.gz
+
+      - name: Check S6A3 package and contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd BOOKETIK_S6A3_NAMED_CONFIGS_SOURCE_20261111
+
+          sha256sum -c scripts/package_files.sha256
+
+          python3 tests/contracts.py
+
+          find backend -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Build React client and SSR
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          bash BOOKETIK_S6A3_NAMED_CONFIGS_SOURCE_20261111/scripts/build_github.sh "$GITHUB_WORKSPACE"
+
+      - name: Validate compiled archive
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          sha256sum -c BOOKETIK_S6A3_NAMED_COMPILED_20261111.tar.gz.sha256
+
+          tar -tzf BOOKETIK_S6A3_NAMED_COMPILED_20261111.tar.gz > /dev/null
+
+          echo "S6A3_ARTIFACT_VERIFY=PASS"
+
+      - name: Upload compiled frontend
+        uses: actions/upload-artifact@v4
+        with:
+          name: booketik-s6a3-named-compiled
+          path: |
+            BOOKETIK_S6A3_NAMED_COMPILED_20261111.tar.gz
+            BOOKETIK_S6A3_NAMED_COMPILED_20261111.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 7
