@@ -1,0 +1,56 @@
+name: BOOKETIK S6A Venue Publication React
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify dependency archives
+        shell: bash
+        run: |
+          unzip -tq BOOKETIK_S4C_CRUD_20261111.zip
+          unzip -tq BOOKETIK_S5C_GEOMETRY_SOURCE_20261111.zip
+          unzip -tq BOOKETIK_S5D_AUTO_SEATING_SOURCE_20261111.zip
+          unzip -tq BOOKETIK_S6A_PUBLICATION_SOURCE_20261111.zip
+          test -s BOOKETIK_FRONTEND_CURRENT_SOURCE.tar.gz
+
+      - name: Unpack source kits
+        run: |
+          unzip -q BOOKETIK_S4C_CRUD_20261111.zip -d .
+          unzip -q BOOKETIK_S5C_GEOMETRY_SOURCE_20261111.zip -d .
+          unzip -q BOOKETIK_S5D_AUTO_SEATING_SOURCE_20261111.zip -d .
+          unzip -q BOOKETIK_S6A_PUBLICATION_SOURCE_20261111.zip -d .
+
+      - name: Validate PHP and source contracts
+        shell: bash
+        run: |
+          find BOOKETIK_S6A_PUBLICATION_SOURCE_20261111/backend -name '*.php' -print0 | xargs -0 -n1 php -l
+          php BOOKETIK_S6A_PUBLICATION_SOURCE_20261111/tests/publication_contract.php
+          python3 BOOKETIK_S6A_PUBLICATION_SOURCE_20261111/tests/source_contract.py
+
+      - name: Build React client + SSR
+        shell: bash
+        run: bash BOOKETIK_S6A_PUBLICATION_SOURCE_20261111/scripts/build_github.sh "$GITHUB_WORKSPACE"
+
+      - name: Export artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: booketik-venue-publication-s6a-compiled
+          path: |
+            BOOKETIK_S6A_PUBLICATION_COMPILED_20261111.tar.gz
+            BOOKETIK_S6A_PUBLICATION_COMPILED_20261111.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 7
