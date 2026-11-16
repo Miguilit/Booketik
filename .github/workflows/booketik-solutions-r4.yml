@@ -1,0 +1,55 @@
+
+name: BOOKETIK Solutions R4 - Build release ZIP
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-solutions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+
+      - name: Prepare Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Prepare PHP 8.4 for source lint
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: none
+          coverage: none
+
+      - name: Source and gate guards
+        run: |
+          python3 scripts/booketik_solutions_r4/audit.py
+          php -l routes/web.php
+          php -l config/booketik_solutions.php
+          php -l app/Services/Solutions/BooketikSolutionsCms.php
+          php -l app/Http/Controllers/Site/BooketikSolutionsPublicController.php
+
+      - name: Install exact locked frontend dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Compile Vite storefront and SSR
+        run: npm run build
+
+      - name: Validate built bundles and generate deployment ZIP
+        run: python3 scripts/booketik_solutions_r4/package.py
+
+      - name: Publish downloadable release artifact (no production deployment)
+        uses: actions/upload-artifact@v4
+        with:
+          name: BOOKETIK_SOLUTIONS_R4_HOSTINGER_RELEASE
+          path: dist/BOOKETIK_SOLUTIONS_R4_HOSTINGER_RELEASE.zip
+          if-no-files-found: error
+          retention-days: 14
