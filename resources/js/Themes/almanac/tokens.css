@@ -1,0 +1,125 @@
+/*
+ | Almanac — tokens. A printed programme: cream stock, warm ink, terracotta
+ | for the one thing to press, moss for what is confirmed, ochre for dates.
+ | RGB triplets so Tailwind's `/<alpha>` works. `npm run themes:contrast`
+ | checks every text/background pair below in both modes.
+ */
+:root {
+    --al-bg: 246 240 227;          /* #F6F0E3 cream stock */
+    --al-surface: 255 251 243;     /* #FFFBF3 card */
+    --al-raised: 239 230 211;      /* #EFE6D3 wells, chips */
+    --al-ink: 31 26 20;            /* #1F1A14 */
+    --al-body: 58 49 40;           /* #3A3128 */
+    --al-muted: 106 95 81;         /* #6A5F51 */
+    --al-line: 220 207 184;        /* #DCCFB8 column rules (decorative) */
+    --al-edge: 140 123 99;         /* #8C7B63 the printed frame on key cards */
+    --al-brand: 168 68 31;         /* #A8441F terracotta, darkened for text */
+    --al-on-brand: 255 251 243;
+    --al-link: 168 68 31;
+    --al-cta: 168 68 31;           /* terracotta fill, cream type */
+    --al-cta-hover: 147 57 26;
+    --al-on-cta: 255 251 243;
+    --al-tint: 227 234 214;        /* #E3EAD6 moss-washed paper */
+    --al-on-tint: 47 66 36;
+    --al-tint-2: 243 223 168;      /* #F3DFA8 ochre-washed paper: dates */
+    --al-on-tint-2: 31 26 20;
+    --al-success: 78 106 59;       /* #4E6A3B moss */
+    --al-danger: 163 41 29;
+    --al-warning: 122 83 0;
+    --al-focus: 78 106 59;
+    --al-shadow: 107 78 46;        /* a warm brown for soft shadows */
+    --al-scrim: 31 26 20;
+    --al-on-scrim: 246 240 227;
+
+    --al-radius-card: 8px;
+    --al-radius-chip: 999px;
+    --al-radius-btn: 6px;
+    --al-radius-sm: 6px;
+}
+
+html.dark {
+    --al-bg: 28 24 19;             /* #1C1813 warm brown-black paper */
+    --al-surface: 38 33 26;        /* #26211A */
+    --al-raised: 48 41 34;         /* #302922 */
+    --al-ink: 243 234 216;         /* #F3EAD8 cream type */
+    --al-body: 221 209 188;        /* #DDD1BC */
+    --al-muted: 185 172 151;       /* #B9AC97 */
+    --al-line: 65 56 44;           /* #41382C */
+    --al-edge: 138 122 99;         /* #8A7A63 */
+    --al-brand: 229 138 99;        /* #E58A63 lifted terracotta */
+    --al-on-brand: 28 24 19;
+    --al-link: 238 154 116;        /* #EE9A74 */
+    --al-cta: 229 138 99;
+    --al-cta-hover: 238 156 121;
+    --al-on-cta: 28 24 19;
+    --al-tint: 43 53 36;           /* #2B3524 */
+    --al-on-tint: 216 230 200;
+    --al-tint-2: 62 50 24;         /* #3E3218 */
+    --al-on-tint-2: 243 223 168;
+    --al-success: 157 184 132;     /* #9DB884 lifted moss */
+    --al-danger: 240 138 120;
+    --al-warning: 226 184 90;
+    --al-focus: 157 184 132;
+    --al-shadow: 0 0 0;
+    --al-scrim: 15 12 9;
+    --al-on-scrim: 243 234 216;
+}
+
+/* Bridge tokens: identical names in every theme (Core/bridge, Stripe, toasts). */
+:root, html.dark {
+    --t-bg: var(--al-bg);
+    --t-card: var(--al-surface);
+    --t-ink: var(--al-ink);
+    --t-muted: var(--al-muted);
+    --t-line: var(--al-line);
+    --t-accent: var(--al-brand);
+    --t-gold: var(--al-cta);
+    --t-on-accent: var(--al-on-brand);
+    --t-success: var(--al-success);
+    --t-danger: var(--al-danger);
+    --t-radius: var(--al-radius-btn);
+    --t-font-body: 'Instrument Sans Variable', 'Instrument Sans', system-ui, sans-serif;
+}
+
+/* The semantic layer (same names in every theme): Civic fallback pages read these. */
+:root, html.dark {
+    --s-bg: var(--al-bg);
+    --s-surface: var(--al-surface);
+    --s-raised: var(--al-raised);
+    --s-ink: var(--al-ink);
+    --s-body: var(--al-body);
+    --s-muted: var(--al-muted);
+    --s-line: var(--al-line);
+    --s-edge: var(--al-edge);
+    --s-brand: var(--al-brand);
+    --s-on-brand: var(--al-on-brand);
+    --s-link: var(--al-link);
+    --s-cta: var(--al-cta);
+    --s-cta-hover: var(--al-cta-hover);
+    --s-on-cta: var(--al-on-cta);
+    --s-tint: var(--al-tint);
+    --s-on-tint: var(--al-on-tint);
+    --s-tint-2: var(--al-tint-2);
+    --s-on-tint-2: var(--al-on-tint-2);
+    --s-success: var(--al-success);
+    --s-danger: var(--al-danger);
+    --s-warning: var(--al-warning);
+    --s-focus: var(--al-focus);
+    --s-shadow: var(--al-shadow);
+    --s-scrim: var(--al-scrim);
+    --s-on-scrim: var(--al-on-scrim);
+    --s-radius-card: var(--al-radius-card);
+    --s-radius-chip: var(--al-radius-chip);
+    --s-radius-btn: var(--al-radius-btn);
+    --s-radius-sm: var(--al-radius-sm);
+    --s-border-key: 1px;
+    --s-shadow-key: 0 1px 2px rgb(var(--al-shadow) / 0.10), 0 8px 24px -10px rgb(var(--al-shadow) / 0.28);
+    --s-shadow-key-hover: 0 2px 4px rgb(var(--al-shadow) / 0.12), 0 14px 32px -12px rgb(var(--al-shadow) / 0.34);
+    --s-shadow-soft: 0 1px 2px rgb(var(--al-shadow) / 0.08);
+    --s-font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --s-font-body: 'Instrument Sans Variable', 'Instrument Sans', system-ui, sans-serif;
+    --s-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --s-display-case: none;
+    --s-display-tracking: -0.01em;
+    --s-display-leading: 1.05;
+}

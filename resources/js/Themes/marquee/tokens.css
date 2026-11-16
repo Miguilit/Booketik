@@ -1,0 +1,121 @@
+/*
+ | Marquee — tokens. A gig poster: ink, paper, concrete and smoke; signal
+ | lime only where something is confirmed or is the one call to action; hot
+ | orange only for sold out and live. RGB triplets for Tailwind's /<alpha>.
+ | `npm run themes:contrast` checks every text pair (DESIGN.md).
+ */
+:root {
+    --mq-bg: 243 240 232;          /* #F3F0E8 paper */
+    --mq-surface: 250 248 242;     /* #FAF8F2 fresh stock */
+    --mq-raised: 230 226 216;      /* #E6E2D8 */
+    --mq-ink: 13 13 11;            /* #0D0D0B */
+    --mq-body: 31 30 27;           /* #1F1E1B */
+    --mq-muted: 86 82 76;          /* #56524C — smoke, darkened for small type */
+    --mq-line: 214 210 199;        /* #D6D2C7 concrete rules */
+    --mq-edge: 13 13 11;
+    --mq-brand: 13 13 11;
+    --mq-on-brand: 243 240 232;
+    --mq-link: 13 13 11;
+    --mq-cta: 200 255 46;          /* #C8FF2E signal lime — fills only */
+    --mq-cta-hover: 182 240 26;
+    --mq-on-cta: 13 13 11;
+    --mq-tint: 214 210 199;        /* concrete */
+    --mq-on-tint: 13 13 11;
+    --mq-tint-2: 13 13 11;         /* the black date block */
+    --mq-on-tint-2: 243 240 232;
+    --mq-success: 30 107 47;       /* #1E6B2F — confirmations as text */
+    --mq-danger: 176 44 12;        /* #B02C0C — hot, darkened for text */
+    --mq-hot: 255 74 28;           /* #FF4A1C — sold out / live fills (ink text) */
+    --mq-warning: 122 74 0;
+    --mq-focus: 13 13 11;
+    --mq-shadow: 13 13 11;
+    --mq-scrim: 13 13 11;
+    --mq-on-scrim: 243 240 232;
+    --mq-radius: 2px;
+}
+
+html.dark {
+    --mq-bg: 13 13 11;             /* ink */
+    --mq-surface: 23 23 20;        /* #171714 */
+    --mq-raised: 35 34 30;         /* #23221E */
+    --mq-ink: 243 240 232;         /* paper type */
+    --mq-body: 222 218 208;
+    --mq-muted: 163 158 148;       /* #A39E94 */
+    --mq-line: 52 50 45;           /* #34322D */
+    --mq-edge: 214 210 199;        /* concrete rules */
+    --mq-brand: 243 240 232;
+    --mq-on-brand: 13 13 11;
+    --mq-link: 243 240 232;
+    --mq-cta: 200 255 46;
+    --mq-cta-hover: 216 255 102;
+    --mq-on-cta: 13 13 11;
+    --mq-tint: 43 42 37;
+    --mq-on-tint: 243 240 232;
+    --mq-tint-2: 243 240 232;      /* the paper date block */
+    --mq-on-tint-2: 13 13 11;
+    --mq-success: 200 255 46;      /* lime reads on ink */
+    --mq-danger: 255 106 64;       /* #FF6A40 */
+    --mq-hot: 255 74 28;
+    --mq-warning: 242 196 107;
+    --mq-focus: 243 240 232;
+    --mq-shadow: 0 0 0;
+    --mq-scrim: 13 13 11;
+    --mq-on-scrim: 243 240 232;
+}
+
+:root, html.dark {
+    --t-bg: var(--mq-bg);
+    --t-card: var(--mq-surface);
+    --t-ink: var(--mq-ink);
+    --t-muted: var(--mq-muted);
+    --t-line: var(--mq-line);
+    --t-accent: var(--mq-brand);
+    --t-gold: var(--mq-cta);
+    --t-on-accent: var(--mq-on-brand);
+    --t-success: var(--mq-success);
+    --t-danger: var(--mq-danger);
+    --t-radius: 2px;
+    --t-font-body: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', system-ui, sans-serif;
+}
+
+:root, html.dark {
+    --s-bg: var(--mq-bg);
+    --s-surface: var(--mq-surface);
+    --s-raised: var(--mq-raised);
+    --s-ink: var(--mq-ink);
+    --s-body: var(--mq-body);
+    --s-muted: var(--mq-muted);
+    --s-line: var(--mq-line);
+    --s-edge: var(--mq-edge);
+    --s-brand: var(--mq-brand);
+    --s-on-brand: var(--mq-on-brand);
+    --s-link: var(--mq-link);
+    --s-cta: var(--mq-cta);
+    --s-cta-hover: var(--mq-cta-hover);
+    --s-on-cta: var(--mq-on-cta);
+    --s-tint: var(--mq-tint);
+    --s-on-tint: var(--mq-on-tint);
+    --s-tint-2: var(--mq-tint-2);
+    --s-on-tint-2: var(--mq-on-tint-2);
+    --s-success: var(--mq-success);
+    --s-danger: var(--mq-danger);
+    --s-warning: var(--mq-warning);
+    --s-focus: var(--mq-focus);
+    --s-shadow: var(--mq-shadow);
+    --s-scrim: var(--mq-scrim);
+    --s-on-scrim: var(--mq-on-scrim);
+    --s-radius-card: 2px;
+    --s-radius-chip: 2px;
+    --s-radius-btn: 2px;
+    --s-radius-sm: 2px;
+    --s-border-key: 1px;
+    --s-shadow-key: none;
+    --s-shadow-key-hover: none;
+    --s-shadow-soft: none;
+    --s-font-display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
+    --s-font-body: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', system-ui, sans-serif;
+    --s-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --s-display-case: uppercase;
+    --s-display-tracking: 0.005em;
+    --s-display-leading: 0.9;
+}

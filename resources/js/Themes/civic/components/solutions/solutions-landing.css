@@ -1,0 +1,78 @@
+/* BOOKETIK Solutions R1A: scoped to the marketing component only.
+   The existing Civic/Marquee/Almanac global modes remain authoritative. */
+.bks-solutions { color:inherit; overflow-x:clip; padding-bottom:4rem; }
+.bks-solutions :where(h1,h2,h3,p) { margin-top:0; }
+.bks-solutions .bks-muted { color:var(--bks-muted, currentColor); opacity:.74; line-height:1.6; }
+.bks-solutions .bks-small { font-size:.8rem; }
+.bks-hero { position:relative; isolation:isolate; min-height:600px; display:flex; align-items:center; overflow:hidden; margin-top:-1px; }
+.bks-hero-inner { position:relative; z-index:2; margin:0 auto; width:min(100% - 3rem,1160px); padding:5.5rem 0; }
+.bks-aurora { position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; opacity:.62; }
+.bks-aurora i { position:absolute; width:80vw; height:45vw; min-height:360px; border-radius:50%; filter:blur(78px); will-change:transform; opacity:.22; }
+.bks-aurora i:nth-child(1) { left:-18%; top:-30%; background:radial-gradient(ellipse,#6aca7c 0%,transparent 72%); animation:bks-drift-a 17s ease-in-out infinite alternate; }
+.bks-aurora i:nth-child(2) { right:-35%; top:7%; background:radial-gradient(ellipse,#e6cc87 0%,transparent 72%); animation:bks-drift-b 22s ease-in-out infinite alternate; }
+.bks-aurora i:nth-child(3) { right:10%; bottom:-60%; background:radial-gradient(ellipse,#63a989 0%,transparent 70%); animation:bks-drift-c 19s ease-in-out infinite alternate; }
+html.dark .bks-aurora { opacity:.8; }
+html.dark .bks-aurora i:nth-child(1) { opacity:.16; }
+html.dark .bks-aurora i:nth-child(2) { opacity:.11; }
+.bks-eyebrow { font-size:.72rem; letter-spacing:.17em; text-transform:uppercase; font-weight:750; display:flex; align-items:center; gap:.5rem; color:#278341; margin-bottom:1.1rem; }
+html.dark .bks-eyebrow { color:#a0dda2; }
+.bks-heading { font-family:inherit; font-weight:850; line-height:1.04; letter-spacing:-.05em; text-wrap:balance; }
+.bks-hero-title { font-size:clamp(3.05rem,7vw,6.6rem); max-width:950px; margin-bottom:1.6rem; }
+.bks-hero-subtitle { font-size:clamp(1.08rem,1.9vw,1.35rem); max-width:650px; line-height:1.65; opacity:.84; }
+.bks-cta-row { display:flex; gap:.85rem; align-items:center; flex-wrap:wrap; margin-top:2.2rem; }
+.bks-btn { display:inline-flex; align-items:center; justify-content:center; gap:.6rem; padding:.92rem 1.25rem; border-radius:14px; font-size:.93rem; font-weight:750; min-height:48px; text-decoration:none; transition:transform .22s ease,background .22s ease; }
+.bks-btn:hover:not(.bks-btn-disabled) { transform:translateY(-2px); }
+.bks-btn-primary { background:#214c30; color:#fff; }
+.bks-btn-secondary { background:transparent; color:inherit; border:1px solid currentColor; }
+html.dark .bks-btn-primary { background:#ace2a8; color:#15321d; }
+.bks-btn-disabled { opacity:.5; cursor:not-allowed; }
+.bks-section { width:min(100% - 3rem,1160px); margin:0 auto; padding:4.8rem 0; }
+.bks-section-heading { max-width:790px; margin-bottom:2rem; }
+.bks-section-title { font-size:clamp(2rem,4.5vw,3.8rem); }
+.bks-panel { border:1px solid currentColor; border-color:color-mix(in srgb,currentColor 12%,transparent); background:color-mix(in srgb,currentColor 3%,transparent); border-radius:22px; box-shadow:0 7px 22px rgba(0,0,0,.025); }
+.bks-bento { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.bks-bento-card { padding:2rem; min-height:240px; transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease; }
+.bks-bento-card:hover { transform:translateY(-4px); border-color:color-mix(in srgb,#399d61 45%,transparent); box-shadow:0 14px 30px rgba(20,65,30,.085); }
+.bks-bento-lead { grid-column:span 2; }
+.bks-bento-card h3,.bks-story-sticky h3 { font-size:1.3rem; font-weight:760; margin-top:1.15rem; margin-bottom:.35rem; }
+.bks-icon { background:color-mix(in srgb,#469d60 14%,transparent); border-radius:14px; color:#2e874d; display:inline-flex; align-items:center; justify-content:center; height:48px; width:48px; }
+html.dark .bks-icon { color:#b6e2b0; }
+.bks-story-grid { display:grid; grid-template-columns:1fr 1.1fr; align-items:start; gap:2rem; }
+.bks-story-options { display:grid; gap:.5rem; }
+.bks-story-option { display:flex; gap:1rem; text-align:left; align-items:center; padding:1.15rem; border:1px solid transparent; border-radius:16px; background:transparent; color:inherit; cursor:pointer; }
+.bks-story-option.is-active { border-color:color-mix(in srgb,#449d58 50%,transparent); background:color-mix(in srgb,#459e62 9%,transparent); }
+.bks-story-option strong { display:block; font-size:1rem; }
+.bks-story-option small { display:block; opacity:.74; margin-top:.25rem; font-size:.82rem; line-height:1.5; }
+.bks-story-sticky { position:sticky; top:6.5rem; min-height:370px; padding:2.5rem; display:flex; gap:1.4rem; flex-direction:column; justify-content:center; overflow:hidden; }
+.bks-story-sticky .bks-story-stage-icon { opacity:.6; color:#348d50; }
+.bks-story-sticky h3 { font-size:2rem; }
+.bks-feature-media { width:100%; max-height:310px; border-radius:12px; object-fit:contain; margin-top:1rem; }
+.bks-pricing-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.bks-price-card { position:relative; overflow:hidden; padding:2rem; display:flex; flex-direction:column; min-height:360px; }
+.bks-price-featured { border-color:rgba(67,157,86,.65); }
+.bks-price-featured::before { content:''; position:absolute; inset:0; border:2px solid transparent; border-radius:inherit; background:linear-gradient(110deg,transparent 20%,#9ada94 45%,transparent 65%) border-box; mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0); mask-composite:exclude; pointer-events:none; animation:bks-beam 6s linear infinite; }
+.bks-price-card h3 { font-size:1.2rem; font-weight:780; margin-bottom:.9rem; }
+.bks-price { font-size:clamp(2.3rem,3.6vw,3.5rem); font-weight:850; letter-spacing:-.05em; line-height:1.12; margin-bottom:.2rem; }
+.bks-price-features { padding:0; margin:1.3rem 0 auto; list-style:none; }
+.bks-price-features li { display:flex; align-items:flex-start; gap:.65rem; font-size:.87rem; margin:.7rem 0; }
+.bks-price-features svg { flex-shrink:0; color:#3b9956; }
+.bks-price-cta { margin-top:1.8rem; width:100%; }
+.bks-pricing-disclaimer { margin-top:1.2rem; font-size:.82rem; }
+.bks-faq { border-top:1px solid color-mix(in srgb,currentColor 15%,transparent); }
+.bks-faq-item { border-bottom:1px solid color-mix(in srgb,currentColor 15%,transparent); }
+.bks-faq-item summary { display:flex; align-items:center; gap:.8rem; padding:1.3rem .2rem; cursor:pointer; font-weight:750; list-style:none; }
+.bks-faq-item summary::-webkit-details-marker { display:none; }
+.bks-faq-chevron { margin-left:auto; }
+.bks-faq-item[open] .bks-faq-chevron { transform:rotate(180deg); }
+.bks-faq-item > p { max-width:760px; padding:0 2rem 1.2rem; }
+.bks-final-cta { border-radius:25px; padding:3.5rem; background:color-mix(in srgb,#32985f 10%,transparent); border:1px solid color-mix(in srgb,#32985f 24%,transparent); }
+.bks-editorial > p:not(.bks-eyebrow) { max-width:780px; font-size:1.1rem; line-height:1.8; }
+.bks-reveal { animation:bks-reveal .85s both; }
+@keyframes bks-drift-a { to { transform:translate(20%,35%) rotate(12deg); } }
+@keyframes bks-drift-b { to { transform:translate(-23%,-12%) rotate(-14deg); } }
+@keyframes bks-drift-c { to { transform:translate(9%,-40%); } }
+@keyframes bks-beam { 0%{ background-position:-420px 0 } 100%{ background-position:600px 0 } }
+@keyframes bks-reveal { from { opacity:0; filter:blur(9px); transform:translateY(14px); } to { opacity:1; filter:blur(0); transform:translateY(0); } }
+@media(max-width:900px) { .bks-bento,.bks-pricing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .bks-story-grid { grid-template-columns:1fr; } .bks-story-sticky { position:static; min-height:270px; } }
+@media(max-width:620px) { .bks-hero { min-height:520px; } .bks-hero-inner,.bks-section { width:min(100% - 2rem,1160px); } .bks-section { padding:3rem 0; } .bks-hero-inner { padding:4.3rem 0; } .bks-hero-title { font-size:clamp(2.7rem,12vw,4.4rem); } .bks-bento,.bks-pricing-grid { grid-template-columns:1fr; } .bks-bento-lead { grid-column:span 1; } .bks-bento-card { min-height:190px; } .bks-final-cta { padding:2rem; } }
+@media(prefers-reduced-motion:reduce) { .bks-solutions *, .bks-solutions *::before, .bks-solutions *::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; } }

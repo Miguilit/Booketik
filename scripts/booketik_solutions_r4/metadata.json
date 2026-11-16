@@ -1,0 +1,31 @@
+{
+  "baseline_sha256": {
+    "app/Services/Solutions/BooketikSolutionsCms.php": "2a42db893f5a350a87db665fea681f12c7416b2f9ec97b7537f1d357bc5defb4",
+    "config/booketik_solutions.php": "530b11938ddefd734925c89106e2a97355622a21f90746b8abff3b54ddc94210",
+    "resources/js/Themes/civic/Layout.jsx": "e763cee5abffa541e502af8eadd3745d29a038bdc31e081b8e01e3328b8e40dd",
+    "resources/js/Themes/civic/components/solutions/SolutionsLanding.jsx": "a4c43de5525bb7a4b6f30cbdf25001734442f66f8fa074e044cfb679612771b7",
+    "resources/lang/en.json": "a39b702f135520855c5c7b9b65814a34ee8ed0f0d82d39015e7c99f083591ede",
+    "resources/lang/fr.json": "970060bc0acd834b83b7c31b441433f840460ed22a0898686dd1352dff8e53d6",
+    "resources/lang/nl.json": "fc52186bf6645f771cbeb94acb4a5b204b84a0011d85ea7e116c319f81574901",
+    "routes/web.php": "5c3e30c7171df522dfb39e04449eb7681785fa20ae047e36fd3cfad4d477801c"
+  },
+  "manifest_page": "resources/js/Themes/civic/Pages/Site/SolutionsPublic.jsx",
+  "new_sources": [
+    "app/Http/Controllers/Site/BooketikSolutionsPublicController.php",
+    "resources/js/Themes/civic/Pages/Site/SolutionsPublic.jsx"
+  ],
+  "notes": "Presentation-only public gate. public_enabled and commercial gates remain false.",
+  "patched_sha256": {
+    "app/Http/Controllers/Site/BooketikSolutionsPublicController.php": "3fc202fe71ff617a343714ab967965fb24da717d19c26035cfe1defa81ef95b6",
+    "app/Services/Solutions/BooketikSolutionsCms.php": "34d0daadc7d430fa15e67a11e0b54b937513e614980e5fb0d98dadd0379c07fc",
+    "config/booketik_solutions.php": "7618e00eb1ef8fa742f37d94a3501f1db2f11624f9bf64475da82c16eacea35f",
+    "resources/js/Themes/civic/Layout.jsx": "3eea8b33380c03a277f2e7a287f947976add558db55f60e7945e313ff513a3b7",
+    "resources/js/Themes/civic/Pages/Site/SolutionsPublic.jsx": "6577344aad9ea007e448ad4a81a1aad6bb1cad0c2140ab10198c42a3c4778e48",
+    "resources/js/Themes/civic/components/solutions/SolutionsLanding.jsx": "cb91377e2a1cf06523bb8e2375e0afc93084321cbd7d09f36cac9f359923fb21",
+    "resources/lang/en.json": "a9e46309a302056481dc4df74e3ebd8452e4713761c8c26ce9ee233391c205c7",
+    "resources/lang/fr.json": "ac094b2cc6ada1118dfe03e300f52a9a5c31678d6d6e7ef0e416c87393acd88c",
+    "resources/lang/nl.json": "794caa0e24320018c6f352271aaa8ae5809fd956bf5a344c8ae54991b1decdef",
+    "routes/web.php": "cd8fd689d105c5f326c5e2dcdd8bf40b63eb08ab110c4239485af95991ee8c2c"
+  },
+  "release_id": "BOOKETIK_SOLUTIONS_R4_20261115"
+}

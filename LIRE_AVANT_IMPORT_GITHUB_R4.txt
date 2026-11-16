@@ -1,0 +1,24 @@
+BOOKETIK Solutions R4 — Sources pour GitHub Actions (16/11/2026)
+
+Le contenu est à copier À LA RACINE du dépôt GitHub qui exécute
+« BOOKETIK Solutions R4 - Build release ZIP ». Les chemins internes
+(package.json, resources/, .github/workflows/, scripts/) doivent être conservés.
+
+IMPORTANT : le workflow GitHub Actions a échoué car il a exécuté une branche
+sans package-lock.json à la racine. Ce ZIP contient maintenant le projet frontend
+complet, le lockfile, les sources R4, le workflow et ses scripts.
+
+PROCÉDURE
+1. Dans GitHub Desktop, sélectionner LE DÉPÔT du workflow qui a échoué.
+2. Créer ou sélectionner la branche feature/solutions-r4-public.
+3. Extraire ce ZIP À LA RACINE de ce dépôt, et non dans un sous-dossier.
+   Avant remplacement, comparer les fichiers déjà modifiés sur votre branche.
+4. Vérifier que package.json et package-lock.json sont visibles à la racine.
+5. Commit, puis Push origin.
+6. Actions > BOOKETIK Solutions R4 - Build release ZIP > Run workflow.
+   Sélectionner explicitement feature/solutions-r4-public et non main.
+7. Déployer sur Hostinger UNIQUEMENT l'artefact compilé après réussite.
+
+Le ZIP NE contient pas de .env, vendor/, node_modules/ ni de secrets.
+Il ne déploie rien sur Hostinger.
+Le build React sur GitHub n'est pas encore certifié.

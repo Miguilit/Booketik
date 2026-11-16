@@ -1,0 +1,131 @@
+/*
+ | Daylight Civic — tokens. RGB triplets so Tailwind's `/<alpha>` works.
+ |
+ | Every name has one job (DESIGN.md). `npm run themes:contrast` parses this
+ | file and fails the build when a text/background pair drops under WCAG AA.
+ | Light: warm paper, ink, teal, tangerine. Dark: warm ink (not blue-black),
+ | cream type, lifted teal and tangerine.
+ */
+:root {
+    --cv-bg: 250 248 244;          /* #FAF8F4 paper */
+    --cv-surface: 255 255 255;     /* cards */
+    --cv-raised: 242 238 230;      /* #F2EEE6 wells, chips, table heads */
+    --cv-ink: 19 32 31;            /* #13201F headings + sticker edge */
+    --cv-body: 44 56 54;           /* #2C3836 paragraphs */
+    --cv-muted: 89 98 95;          /* #59625F captions, meta */
+    --cv-line: 227 221 209;        /* #E3DDD1 hairlines (decorative) */
+    --cv-edge: 19 32 31;           /* the 1.5px sticker border */
+    --cv-brand: 12 90 82;          /* #0C5A52 teal: links, selected, brand fills */
+    --cv-on-brand: 255 255 255;
+    --cv-link: 12 90 82;
+    --cv-cta: 255 107 44;          /* #FF6B2C tangerine: the one call to action */
+    --cv-cta-hover: 255 132 80;
+    --cv-on-cta: 19 32 31;         /* ink on tangerine (white fails AA) */
+    --cv-tint: 191 226 240;        /* #BFE2F0 sky: info chips, map tiles */
+    --cv-on-tint: 19 32 31;
+    --cv-tint-2: 255 231 160;      /* #FFE7A0 butter: date stamps, highlights */
+    --cv-on-tint-2: 19 32 31;
+    --cv-success: 28 110 64;       /* confirmations only */
+    --cv-danger: 179 38 30;
+    --cv-warning: 122 79 0;
+    --cv-focus: 12 90 82;
+    --cv-shadow: 19 32 31;         /* hard sticker shadow */
+    --cv-scrim: 19 17 16;          /* under text on covers */
+    --cv-on-scrim: 250 248 244;
+
+    --cv-radius-card: 18px;
+    --cv-radius-chip: 999px;
+    --cv-radius-btn: 14px;
+    --cv-radius-sm: 10px;
+}
+
+html.dark {
+    --cv-bg: 23 20 18;             /* #171412 warm ink */
+    --cv-surface: 34 30 26;        /* #221E1A */
+    --cv-raised: 44 39 34;         /* #2C2722 */
+    --cv-ink: 244 239 230;         /* #F4EFE6 cream */
+    --cv-body: 220 212 199;        /* #DCD4C7 */
+    --cv-muted: 179 170 156;       /* #B3AA9C */
+    --cv-line: 59 52 45;           /* #3B342D */
+    --cv-edge: 233 226 214;        /* a cream cut-out edge */
+    --cv-brand: 95 201 185;        /* #5FC9B9 */
+    --cv-on-brand: 14 26 25;
+    --cv-link: 111 211 195;        /* #6FD3C3 */
+    --cv-cta: 255 122 61;          /* #FF7A3D */
+    --cv-cta-hover: 255 146 94;
+    --cv-on-cta: 23 20 18;
+    --cv-tint: 30 58 66;           /* #1E3A42 deep sky */
+    --cv-on-tint: 221 241 248;
+    --cv-tint-2: 61 50 22;         /* #3D3216 deep butter */
+    --cv-on-tint-2: 255 231 160;
+    --cv-success: 127 216 160;
+    --cv-danger: 255 138 122;
+    --cv-warning: 242 196 107;
+    --cv-focus: 111 211 195;
+    --cv-shadow: 0 0 0;
+    --cv-scrim: 12 10 9;
+    --cv-on-scrim: 244 239 230;
+}
+
+/* Bridge tokens: identical names in every theme (Core/bridge, Stripe, toasts). */
+:root, html.dark {
+    --t-bg: var(--cv-bg);
+    --t-card: var(--cv-surface);
+    --t-ink: var(--cv-ink);
+    --t-muted: var(--cv-muted);
+    --t-line: var(--cv-line);
+    --t-accent: var(--cv-brand);
+    --t-gold: var(--cv-cta);
+    --t-on-accent: var(--cv-on-brand);
+    --t-success: var(--cv-success);
+    --t-danger: var(--cv-danger);
+    --t-radius: var(--cv-radius-btn);
+    --t-font-body: 'Public Sans Variable', 'Public Sans', system-ui, sans-serif;
+}
+
+/*
+ | Semantic layer every theme defines identically (`--s-*`): the Tailwind
+ | colour names map to these, so a Civic page rendered under another theme
+ | (the fallback) takes that theme's colours, not Civic's.
+ */
+:root, html.dark {
+    --s-bg: var(--cv-bg);
+    --s-surface: var(--cv-surface);
+    --s-raised: var(--cv-raised);
+    --s-ink: var(--cv-ink);
+    --s-body: var(--cv-body);
+    --s-muted: var(--cv-muted);
+    --s-line: var(--cv-line);
+    --s-edge: var(--cv-edge);
+    --s-brand: var(--cv-brand);
+    --s-on-brand: var(--cv-on-brand);
+    --s-link: var(--cv-link);
+    --s-cta: var(--cv-cta);
+    --s-cta-hover: var(--cv-cta-hover);
+    --s-on-cta: var(--cv-on-cta);
+    --s-tint: var(--cv-tint);
+    --s-on-tint: var(--cv-on-tint);
+    --s-tint-2: var(--cv-tint-2);
+    --s-on-tint-2: var(--cv-on-tint-2);
+    --s-success: var(--cv-success);
+    --s-danger: var(--cv-danger);
+    --s-warning: var(--cv-warning);
+    --s-focus: var(--cv-focus);
+    --s-shadow: var(--cv-shadow);
+    --s-scrim: var(--cv-scrim);
+    --s-on-scrim: var(--cv-on-scrim);
+    --s-radius-card: var(--cv-radius-card);
+    --s-radius-chip: var(--cv-radius-chip);
+    --s-radius-btn: var(--cv-radius-btn);
+    --s-radius-sm: var(--cv-radius-sm);
+    --s-border-key: 1.5px;
+    --s-shadow-key: 2px 2px 0 rgb(var(--cv-shadow));
+    --s-shadow-key-hover: 4px 4px 0 rgb(var(--cv-shadow));
+    --s-shadow-soft: 0 1px 0 rgb(var(--cv-line));
+    --s-font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+    --s-font-body: 'Public Sans Variable', 'Public Sans', system-ui, sans-serif;
+    --s-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --s-display-case: none;
+    --s-display-tracking: -0.02em;
+    --s-display-leading: 1.02;
+}

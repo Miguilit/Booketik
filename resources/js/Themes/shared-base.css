@@ -1,0 +1,160 @@
+/*
+ | Structural rules every theme shares — no colours, no type, no shapes of its
+ | own: those come from each theme's `--s-*` semantic tokens. Imported by
+ | every theme.css before Tailwind, so a theme can override any of it.
+ | (Grid shrink, sideways clip, focus.)
+ */
+
+html {
+    background: rgb(var(--s-bg));
+    color: rgb(var(--s-body));
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background: rgb(var(--s-bg));
+    color: rgb(var(--s-body));
+    font-family: var(--s-font-body);
+    font-feature-settings: 'ss01' on;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+}
+
+h1, h2, h3, h4 {
+    color: rgb(var(--s-ink));
+}
+
+/* Grid and flex children may shrink below their content (long titles, tables). */
+:where(.grid) > *, :where(.flex) > * {
+    min-width: 0;
+}
+
+::selection {
+    background: rgb(var(--s-tint-2));
+    color: rgb(var(--s-on-tint-2));
+}
+
+/* One visible focus ring everywhere, in the theme's focus colour. */
+:focus-visible {
+    outline: 2.5px solid rgb(var(--s-focus));
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.skip-link {
+    position: absolute;
+    inset-inline-start: 12px;
+    top: -60px;
+    z-index: 100;
+    padding: 10px 14px;
+    background: rgb(var(--s-ink));
+    color: rgb(var(--s-bg));
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    top: 12px;
+}
+
+.no-scrollbar {
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scrollers anchor their own absolutely positioned bits. */
+.overflow-x-auto {
+    position: relative;
+}
+
+/* The QR stays dark-on-light in every mode: scanners need it. */
+.qr-frame svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Leaflet: the attribution must stay legible, the map must not sit above dialogs. */
+.leaflet-container {
+    font-family: var(--s-font-body);
+    background: rgb(var(--s-raised));
+    z-index: 0;
+}
+
+.leaflet-control-attribution {
+    font-size: 11px !important;
+    background: rgb(var(--s-surface) / 0.92) !important;
+    color: rgb(var(--s-body)) !important;
+}
+
+.leaflet-control-attribution a {
+    color: rgb(var(--s-link)) !important;
+}
+
+.leaflet-pane, .leaflet-top, .leaflet-bottom {
+    z-index: 1 !important;
+}
+
+.leaflet-marker-icon.leaflet-div-icon {
+    background: none;
+    border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/*
+ | The cookie-consent notice (TermsFeed, app.blade.php), on each theme's own
+ | tokens. `!important`: the widget appends its stylesheet
+ | after ours at runtime. A compact bar, below the site's dialogs (z-index),
+ | so it never covers the sign-in dialog.
+ */
+.termsfeed-com---nb {
+    background-color: rgb(var(--s-surface)) !important;
+    border-top: 1px solid rgb(var(--s-line)) !important;
+    color: rgb(var(--s-ink)) !important;
+    font-family: var(--s-font-body), system-ui, sans-serif !important;
+    z-index: 60 !important;
+}
+.termsfeed-com---nb-simple {
+    max-width: 420px !important;
+    border: 1px solid rgb(var(--s-edge)) !important;
+    border-radius: var(--s-radius-card) !important;
+    margin: 0 12px 12px !important;
+    right: 0 !important;
+    box-shadow: var(--s-shadow-soft) !important;
+}
+.termsfeed-com---nb .cc-nb-main-container { padding: 16px 18px !important; }
+.termsfeed-com---nb .cc-nb-title { color: rgb(var(--s-ink)) !important; font-size: 16px !important; font-weight: 700 !important; margin-bottom: 4px !important; }
+.termsfeed-com---nb .cc-nb-text { color: rgb(var(--s-body)) !important; font-size: 14px !important; line-height: 1.5 !important; margin-bottom: 12px !important; }
+.termsfeed-com---nb .cc-nb-text a { color: rgb(var(--s-link)) !important; text-decoration: underline !important; }
+.termsfeed-com---nb .cc-nb-okagree,
+.termsfeed-com---nb .cc-nb-reject,
+.termsfeed-com---nb .cc-nb-changep {
+    border: 1px solid rgb(var(--s-line)) !important;
+    border-radius: var(--s-radius-btn) !important;
+    font: 600 14px/1 var(--s-font-body), system-ui, sans-serif !important;
+    padding: 10px 14px !important;
+    margin: 0 6px 6px 0 !important;
+    background-color: rgb(var(--s-raised)) !important;
+    color: rgb(var(--s-ink)) !important;
+}
+.termsfeed-com---nb .cc-nb-okagree { background-color: rgb(var(--s-cta)) !important; border-color: rgb(var(--s-edge)) !important; color: rgb(var(--s-on-cta)) !important; }
+.termsfeed-com---nb .cc-nb-okagree:focus-visible,
+.termsfeed-com---nb .cc-nb-reject:focus-visible,
+.termsfeed-com---nb .cc-nb-changep:focus-visible { outline: 2px solid rgb(var(--s-focus)) !important; outline-offset: 2px !important; box-shadow: none !important; }

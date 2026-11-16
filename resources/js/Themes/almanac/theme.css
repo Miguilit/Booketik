@@ -1,0 +1,146 @@
+/*
+ | Almanac — a printed programme (DESIGN.md). Fonts bundled from Fontsource.
+ */
+@import '@fontsource/instrument-serif/latin-400.css';
+@import '@fontsource/instrument-serif/latin-ext-400.css';
+@import '@fontsource/instrument-serif/latin-400-italic.css';
+@import '@fontsource/instrument-serif/latin-ext-400-italic.css';
+@import '@fontsource-variable/instrument-sans/index.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-400.css';
+@import '@fontsource/ibm-plex-mono/cyrillic-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-500.css';
+@import '@fontsource/ibm-plex-mono/cyrillic-500.css';
+@import 'leaflet/dist/leaflet.css';
+@import './tokens.css';
+@import '../shared-base.css';
+
+@config "./tailwind.config.js";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /* Paper: a whisper of fibre, never a gradient. */
+    body {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.31 0 0 0 0 0.18 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    html.dark body {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.92 0 0 0 0 0.8 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    h1, h2, h3, .font-display {
+        font-weight: 400;
+        letter-spacing: -0.01em;
+    }
+}
+
+@layer components {
+    /* Map pins (Almanac's own, and Civic's MapView on fallback pages). */
+    .al-pin__dot,
+    .cv-pin__dot {
+        display: inline-flex;
+        min-width: 24px;
+        min-height: 24px;
+        align-items: center;
+        justify-content: center;
+        transform: translate(-50%, -100%);
+        white-space: nowrap;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgb(var(--s-surface));
+        background: rgb(var(--s-cta));
+        color: rgb(var(--s-on-cta));
+        font: italic 400 14px/1 var(--s-font-display);
+        box-shadow: 0 4px 10px -4px rgb(var(--s-shadow) / 0.5);
+    }
+
+    .al-pin.is-active .al-pin__dot,
+    .cv-pin.is-active .cv-pin__dot {
+        background: rgb(var(--s-ink));
+        color: rgb(var(--s-bg));
+    }
+
+    html.dark .leaflet-tile-pane {
+        filter: brightness(0.8) sepia(0.15) saturate(0.85);
+    }
+
+    .leaflet-tile-pane {
+        filter: sepia(0.18) saturate(0.9);
+    }
+
+    /* A column rule between listing columns. */
+    .al-columns {
+        column-rule: 1px solid rgb(var(--s-line));
+    }
+
+    .al-rule-double {
+        border-top: 3px double rgb(var(--s-ink));
+    }
+
+    /* Rich text: a programme note. */
+    .al-prose,
+    .cv-prose {
+        color: rgb(var(--s-body));
+        font-size: 17px;
+        line-height: 1.7;
+    }
+
+    .al-prose > * + *, .cv-prose > * + * { margin-top: 0.9em; }
+    .al-prose h2, .al-prose h3, .cv-prose h2, .cv-prose h3 { font-family: var(--s-font-display); font-weight: 400; color: rgb(var(--s-ink)); line-height: 1.15; margin-top: 1.3em; }
+    .al-prose h2, .cv-prose h2 { font-size: 1.7em; }
+    .al-prose h3, .cv-prose h3 { font-size: 1.35em; font-style: italic; }
+    .al-prose a, .cv-prose a { color: rgb(var(--s-link)); text-decoration: underline; text-underline-offset: 3px; }
+    .al-prose ul, .cv-prose ul { list-style: disc; padding-inline-start: 1.3em; }
+    .al-prose ol, .cv-prose ol { list-style: decimal; padding-inline-start: 1.3em; }
+    .al-prose li + li, .cv-prose li + li { margin-top: 0.35em; }
+    .al-prose blockquote, .cv-prose blockquote { border-inline-start: 2px solid rgb(var(--s-brand)); padding-inline-start: 1em; font-family: var(--s-font-display); font-style: italic; font-size: 1.25em; color: rgb(var(--s-ink)); }
+    .al-prose strong, .cv-prose strong { color: rgb(var(--s-ink)); }
+    .al-prose img, .cv-prose img { border-radius: var(--s-radius-sm); }
+
+    /* A drop cap for the first paragraph of a programme note. */
+    .al-prose.al-dropcap > p:first-child::first-letter {
+        float: inline-start;
+        font-family: var(--s-font-display);
+        font-size: 3.4em;
+        line-height: 0.85;
+        padding-inline-end: 0.08em;
+        padding-top: 0.06em;
+        color: rgb(var(--s-brand));
+    }
+
+    /* The ticket reveal: a stub slides out of the programme. */
+    .al-reveal,
+    .cv-reveal {
+        animation: al-reveal 600ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    @keyframes al-reveal {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: none; }
+    }
+}
+
+/*
+ | Right-to-left (Arabic). Arabic letters join: letter-spacing pulls them apart,
+ | and a monospace face draws them as isolated, unjoined glyphs — so in RTL
+ | tracking is off and the mono face falls back to the body face. Organizer
+ | content (descriptions, FAQ answers, refund policies) is often in another
+ | script than the page: each of its paragraphs takes its direction from its
+ | own first strong character, so English on an Arabic page reads left to right.
+ */
+[dir='rtl'] * {
+    letter-spacing: 0 !important;
+}
+
+[dir='rtl'] :is(.font-mono, code, kbd, samp) {
+    font-family: var(--s-font-body) !important;
+}
+
+[dir='rtl'] :is(.al-prose, [data-user-content]) :is(p, li, h2, h3, h4, blockquote),
+[dir='rtl'] [data-user-content] {
+    unicode-bidi: plaintext;
+}

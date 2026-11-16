@@ -1,0 +1,183 @@
+/*
+ | Marquee — a gig poster (DESIGN.md). Fonts bundled from Fontsource.
+ */
+@import '@fontsource/anton/latin-400.css';
+@import '@fontsource/anton/latin-ext-400.css';
+@import '@fontsource-variable/schibsted-grotesk/index.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-400.css';
+@import '@fontsource/ibm-plex-mono/cyrillic-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-500.css';
+@import '@fontsource/ibm-plex-mono/cyrillic-500.css';
+@import 'leaflet/dist/leaflet.css';
+@import './tokens.css';
+@import '../shared-base.css';
+
+@config "./tailwind.config.js";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /* Poster type: Anton is a capitals face set tight. */
+    .font-display {
+        text-transform: uppercase;
+        line-height: 0.92;
+        letter-spacing: 0.005em;
+        font-weight: 400 !important;
+    }
+
+    /* Hard cuts: things change state, they do not glide. */
+    a, button {
+        transition: none !important;
+    }
+}
+
+@layer components {
+    /* The full-bleed black band, in both modes. */
+    .mq-band {
+        background: #0d0d0b;
+        color: #f3f0e8;
+    }
+
+    html.dark .mq-band {
+        background: #000;
+        border-block: 1px solid rgb(var(--mq-line));
+    }
+
+    /* Inside a band the semantic tokens are the night ones, whatever the mode,
+       so every kit piece (icons, inputs, menus' triggers) reads on black. */
+    .mq-band {
+        --s-bg: 13 13 11;
+        --s-surface: 23 23 20;
+        --s-raised: 35 34 30;
+        --s-ink: 243 240 232;
+        --s-body: 222 218 208;
+        --s-muted: 163 158 148;
+        --s-line: 52 50 45;
+        --s-edge: 214 210 199;
+        --s-brand: 243 240 232;
+        --s-on-brand: 13 13 11;
+        --s-link: 243 240 232;
+        --s-focus: 243 240 232;
+        --s-tint-2: 243 240 232;
+        --s-on-tint-2: 13 13 11;
+    }
+
+    /* Map pins: square lime price tags; the selected one inverts to ink. */
+    .mq-pin__dot,
+    .cv-pin__dot {
+        display: inline-flex;
+        min-width: 26px;
+        min-height: 24px;
+        align-items: center;
+        justify-content: center;
+        transform: translate(-50%, -100%);
+        white-space: nowrap;
+        padding: 3px 7px;
+        border-radius: 2px;
+        border: 1px solid #0d0d0b;
+        background: #c8ff2e;
+        color: #0d0d0b;
+        font: 500 12px/1 var(--s-font-mono);
+        text-transform: uppercase;
+    }
+
+    .mq-pin.is-active .mq-pin__dot,
+    .cv-pin.is-active .cv-pin__dot {
+        background: #0d0d0b;
+        color: #f3f0e8;
+        border-color: #f3f0e8;
+    }
+
+    html.dark .leaflet-tile-pane {
+        filter: grayscale(1) invert(1) brightness(0.85) contrast(0.9);
+    }
+
+    .leaflet-tile-pane {
+        filter: grayscale(1) contrast(1.05);
+    }
+
+    /* The selling-fast ticker. Static under reduced motion (shared-base). */
+    .mq-ticker {
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .mq-ticker__track {
+        display: inline-flex;
+        gap: 2.5rem;
+        padding-inline-end: 2.5rem;
+        animation: mq-ticker 22s linear infinite;
+    }
+
+    @keyframes mq-ticker {
+        to { transform: translateX(-50%); }
+    }
+
+    [dir='rtl'] .mq-ticker__track {
+        animation-direction: reverse;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .mq-ticker__track { animation: none; }
+    }
+
+    /* Ticket reveal: a hard cut in, no drift. */
+    .cv-reveal,
+    .mq-reveal {
+        animation: mq-reveal 240ms steps(3, end) both;
+    }
+
+    @keyframes mq-reveal {
+        from { clip-path: inset(0 0 100% 0); }
+        to { clip-path: inset(0 0 0 0); }
+    }
+
+    /* Rich text. */
+    .mq-prose,
+    .cv-prose {
+        color: rgb(var(--s-body));
+        font-size: 17px;
+        line-height: 1.6;
+    }
+
+    .mq-prose > * + *, .cv-prose > * + * { margin-top: 0.9em; }
+    .mq-prose h2, .mq-prose h3, .cv-prose h2, .cv-prose h3 {
+        font-family: var(--s-font-display);
+        text-transform: uppercase;
+        color: rgb(var(--s-ink));
+        line-height: 0.95;
+        margin-top: 1.3em;
+    }
+    .mq-prose h2, .cv-prose h2 { font-size: 1.9em; }
+    .mq-prose h3, .cv-prose h3 { font-size: 1.4em; }
+    .mq-prose a, .cv-prose a { color: rgb(var(--s-link)); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+    .mq-prose ul, .cv-prose ul { list-style: square; padding-inline-start: 1.3em; }
+    .mq-prose ol, .cv-prose ol { list-style: decimal; padding-inline-start: 1.3em; }
+    .mq-prose blockquote, .cv-prose blockquote { border-inline-start: 4px solid rgb(var(--s-ink)); padding-inline-start: 1em; font-family: var(--s-font-display); text-transform: uppercase; font-size: 1.4em; line-height: 1; color: rgb(var(--s-ink)); }
+    .mq-prose strong, .cv-prose strong { color: rgb(var(--s-ink)); }
+}
+
+/*
+ | Right-to-left (Arabic). Arabic letters join: letter-spacing pulls them apart,
+ | and a monospace face draws them as isolated, unjoined glyphs — so in RTL
+ | tracking is off and the mono face falls back to the body face. Organizer
+ | content (descriptions, FAQ answers, refund policies) is often in another
+ | script than the page: each of its paragraphs takes its direction from its
+ | own first strong character, so English on an Arabic page reads left to right.
+ */
+[dir='rtl'] * {
+    letter-spacing: 0 !important;
+}
+
+[dir='rtl'] :is(.font-mono, code, kbd, samp) {
+    font-family: var(--s-font-body) !important;
+}
+
+[dir='rtl'] :is(.mq-prose, [data-user-content]) :is(p, li, h2, h3, h4, blockquote),
+[dir='rtl'] [data-user-content] {
+    unicode-bidi: plaintext;
+}

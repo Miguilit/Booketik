@@ -1,0 +1,18 @@
+{
+  "events": [
+    {
+      "id": "booketik-example-001",
+      "name": {
+        "fr": "Événement de démonstration Booketik (fictif)"
+      },
+      "startDate": "2027-03-20T19:00:00+01:00",
+      "url": "https://example.org/events/booketik-demo",
+      "organizer": {
+        "name": "Organisateur de démonstration"
+      },
+      "place": {
+        "name": "Bruxelles"
+      }
+    }
+  ]
+}

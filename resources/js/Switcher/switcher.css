@@ -1,0 +1,853 @@
+/*
+|--------------------------------------------------------------------------
+| Theme switcher styles
+|--------------------------------------------------------------------------
+|
+| Plain CSS on purpose. The switcher renders on top of whichever theme is
+| active, and each theme ships its own Tailwind build with its own preflight,
+| fonts and palette — a switcher styled with Tailwind classes would look
+| different in every theme, or vanish where a class does not exist. So:
+|
+|  - every selector is prefixed (`.ts-*` for the room, `.tp-*` for the
+|    miniatures), and its colours are its own `--ts-*` variables;
+|  - it sets its own font, box model and button resets;
+|  - `!important` appears only where a theme preflight would otherwise win.
+|
+| Light by default, dark under `html.dark` — it follows the site's mode.
+*/
+
+.ts-root {
+    --ts-bg: #fbf8f2;
+    --ts-card: #ffffff;
+    --ts-ink: #1c1a17;
+    --ts-muted: #6d685f;
+    --ts-line: rgba(28, 26, 23, 0.12);
+    --ts-gold: #a8732c;
+    --ts-wood-a: #9a6a43;
+    --ts-wood-b: #6e4529;
+    --ts-focus: #3d5afe;
+    --ts-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ts-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --ts-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+}
+html.dark .ts-root {
+    --ts-bg: #18171b;
+    --ts-card: #222126;
+    --ts-ink: #efece6;
+    --ts-muted: #a39f96;
+    --ts-line: rgba(255, 255, 255, 0.1);
+    --ts-gold: #d6a35a;
+    --ts-wood-a: #6b4a32;
+    --ts-wood-b: #452d1d;
+    --ts-focus: #8c9dff;
+}
+.ts-root,
+.ts-root *,
+.ts-root *::before,
+.ts-root *::after {
+    box-sizing: border-box;
+}
+.ts-root {
+    font-family: var(--ts-font);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+.ts-root button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+}
+.ts-root button:disabled {
+    cursor: not-allowed;
+}
+.ts-root :focus-visible {
+    outline: 2px solid var(--ts-focus) !important;
+    outline-offset: 3px;
+}
+.ts-root h2,
+.ts-root h3,
+.ts-root p,
+.ts-root ul {
+    margin: 0;
+    padding: 0;
+}
+/* ── Backdrop and frame ───────────────────────────────────────────────── */
+
+.ts-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483646;
+    background: rgba(14, 11, 8, 0.42);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+    backdrop-filter: blur(16px) saturate(1.15);
+    animation: ts-fade 0.32s ease-out both;
+}
+.ts-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    pointer-events: none;
+}
+.ts-panel {
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    width: min(1180px, 100%);
+    max-height: calc(100dvh - 48px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    background: var(--ts-bg) !important;
+    color: var(--ts-ink);
+    border: 1px solid var(--ts-line);
+    border-radius: 24px;
+    box-shadow: 0 40px 120px -30px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    animation: ts-rise 0.55s var(--ts-ease) both;
+}
+/* ── Header ───────────────────────────────────────────────────────────── */
+
+.ts-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 32px 10px;
+}
+.ts-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ts-gold);
+}
+.ts-title {
+    margin-top: 6px !important;
+    font-family: var(--ts-serif);
+    font-size: clamp(22px, 2.6vw, 32px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+.ts-sub {
+    margin-top: 6px !important;
+    max-width: 52ch;
+    font-size: 14px;
+    color: var(--ts-muted);
+}
+.ts-head-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.ts-peek {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--ts-card);
+    border: 1px solid var(--ts-line);
+}
+.ts-peek button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ts-muted);
+    transition: background-color 0.2s, color 0.2s;
+}
+.ts-peek button.is-on {
+    background: var(--ts-ink);
+    color: var(--ts-bg);
+}
+.ts-close {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid var(--ts-line) !important;
+    color: var(--ts-muted);
+    transition: color 0.2s, transform 0.2s;
+}
+.ts-close:hover {
+    color: var(--ts-ink);
+    transform: rotate(90deg);
+}
+/* ── Body: stage + shelf ──────────────────────────────────────────────── */
+
+.ts-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 28px;
+    padding: 16px 32px 8px;
+    align-items: center;
+}
+.ts-stage {
+    perspective: 1800px;
+}
+/* The open book. */
+.ts-book {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1fr);
+    min-height: 360px;
+    padding: 18px;
+    border-radius: 10px;
+    background: var(--ts-card);
+    border: 1px solid var(--ts-line);
+    box-shadow:
+        0 30px 60px -32px var(--ts-glow, rgba(0, 0, 0, 0.4)),
+        0 2px 0 var(--ts-line),
+        0 5px 0 -1px var(--ts-card),
+        0 6px 0 -1px var(--ts-line);
+    transition: box-shadow 0.5s var(--ts-ease);
+}
+.ts-spinefold {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.16) 50%, rgba(0, 0, 0, 0.1) 55%, transparent);
+}
+.ts-page {
+    min-width: 0;
+    transform-style: preserve-3d;
+}
+.ts-page--left {
+    display: grid;
+    place-items: center;
+    transform-origin: right center;
+    animation: ts-turn-left 0.6s var(--ts-ease) both;
+}
+.ts-page--right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 6px 4px 6px 14px;
+    transform-origin: left center;
+    animation: ts-turn-right 0.6s var(--ts-ease) both;
+}
+.ts-numeral {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--ts-serif);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--ts-gold);
+}
+.ts-badge {
+    font-family: var(--ts-font);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--ts-ink);
+    color: var(--ts-bg);
+}
+.ts-badge--soon {
+    background: transparent;
+    color: var(--ts-muted);
+    box-shadow: inset 0 0 0 1px var(--ts-line);
+}
+.ts-name {
+    font-family: var(--ts-serif);
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 600;
+    line-height: 1.1;
+}
+.ts-tagline {
+    font-family: var(--ts-serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ts-ink);
+}
+.ts-desc {
+    font-size: 13px;
+    color: var(--ts-muted);
+}
+.ts-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+}
+.ts-tags li {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--ts-line);
+    color: var(--ts-muted);
+}
+.ts-swatches {
+    display: flex;
+    gap: 6px;
+    margin-top: auto;
+}
+.ts-swatches span {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+.ts-mini-stage {
+    font-size: clamp(6px, 0.82vw, 10px);
+}
+/* ── The shelf ────────────────────────────────────────────────────────── */
+
+.ts-shelf-wrap {
+    position: relative;
+    padding: 10px 6px 0;
+}
+.ts-shelf {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 7px;
+    height: 300px;
+    padding: 0 10px;
+}
+.ts-spine {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 34px;
+    max-width: 58px;
+    height: var(--sp-h);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0 10px !important;
+    border-radius: 4px 4px 2px 2px;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.22), transparent 16%, rgba(255, 255, 255, 0.08) 30%, transparent 46%, transparent 80%, rgba(0, 0, 0, 0.26)),
+        var(--sp-a) !important;
+    color: var(--sp-bg) !important;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    transform-origin: bottom center;
+    transition: transform 0.4s var(--ts-ease), box-shadow 0.4s var(--ts-ease), filter 0.3s;
+    animation: ts-slide 0.6s var(--ts-ease) both;
+    animation-delay: var(--ts-delay, 0ms);
+}
+.ts-spine-band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8px;
+    height: 7px;
+    background:
+        linear-gradient(var(--sp-b), var(--sp-b)) top/100% 2px no-repeat,
+        linear-gradient(var(--sp-b), var(--sp-b)) bottom/100% 2px no-repeat;
+    opacity: 0.9;
+}
+.ts-spine::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 26px;
+    height: 7px;
+    background:
+        linear-gradient(var(--sp-b), var(--sp-b)) top/100% 2px no-repeat,
+        linear-gradient(var(--sp-b), var(--sp-b)) bottom/100% 2px no-repeat;
+    opacity: 0.9;
+}
+.ts-spine-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin-top: 10px;
+    max-height: calc(100% - 52px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: var(--ts-serif);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+.ts-spine-num {
+    font-family: var(--ts-serif);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+}
+.ts-spine:hover:not(.is-selected) {
+    transform: translateY(-8px) rotate(-1.5deg);
+}
+.ts-spine.is-selected {
+    transform: translateY(-18px);
+    box-shadow:
+        0 0 0 2px var(--ts-ink),
+        0 22px 30px -14px var(--sp-a);
+}
+/* The current theme carries a fabric bookmark. */
+.ts-spine-ribbon {
+    position: absolute;
+    top: -3px;
+    right: 7px;
+    width: 9px;
+    height: 30px;
+    background: #c8243a;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+/* Unbuilt themes: still wrapped in kraft paper and twine. */
+.ts-spine.is-wrapped {
+    background:
+        linear-gradient(90deg, transparent 46%, rgba(120, 85, 50, 0.55) 46%, rgba(120, 85, 50, 0.55) 54%, transparent 54%),
+        repeating-linear-gradient(135deg, #e7dcc6 0 6px, #ddd0b6 6px 12px) !important;
+    color: #5f5140 !important;
+}
+html.dark .ts-spine.is-wrapped {
+    background:
+        linear-gradient(90deg, transparent 46%, rgba(30, 22, 14, 0.6) 46%, rgba(30, 22, 14, 0.6) 54%, transparent 54%),
+        repeating-linear-gradient(135deg, #6f6150 0 6px, #645645 6px 12px) !important;
+    color: #efe6d6 !important;
+}
+.ts-spine.is-wrapped .ts-spine-band,
+.ts-spine.is-wrapped::after {
+    display: none;
+}
+.ts-spine-wrap {
+    display: inline-grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #5f5140;
+}
+.ts-plank {
+    height: 16px;
+    margin: 0 -2px;
+    border-radius: 3px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 40%),
+        linear-gradient(90deg, var(--ts-wood-a), var(--ts-wood-b) 60%, var(--ts-wood-a));
+    box-shadow: 0 14px 22px -12px rgba(0, 0, 0, 0.55);
+}
+/* ── Footer ───────────────────────────────────────────────────────────── */
+
+.ts-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 18px;
+    padding: 18px 32px 24px;
+    border-top: 1px solid var(--ts-line);
+}
+.ts-hint {
+    font-size: 13px;
+    color: var(--ts-muted);
+}
+.ts-hint--error {
+    color: #d23a2e;
+    font-weight: 600;
+}
+.ts-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.ts-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 22px !important;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: transform 0.2s var(--ts-ease), background-color 0.2s, opacity 0.2s;
+}
+.ts-btn--ghost {
+    border: 1px solid var(--ts-line) !important;
+    color: var(--ts-ink);
+}
+.ts-btn--ghost:hover {
+    background: var(--ts-card) !important;
+}
+.ts-btn--primary {
+    background: var(--ts-cta, #3d5afe) !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 24px -12px var(--ts-cta, #3d5afe);
+}
+.ts-btn--primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+.ts-btn--primary:disabled {
+    opacity: 0.45;
+}
+/* ── Applying veil ────────────────────────────────────────────────────── */
+
+.ts-veil {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 22px;
+    background: var(--ts-bg);
+    color: var(--ts-ink);
+    animation: ts-fade 0.25s ease-out both;
+}
+.ts-veil-book {
+    border-radius: 14px;
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.5);
+    animation: ts-zoom 0.9s var(--ts-ease) both;
+}
+.ts-mini-veil {
+    font-size: clamp(8px, 1.4vmin, 13px);
+}
+.ts-veil-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--ts-serif);
+    font-size: 18px;
+    font-style: italic;
+}
+.ts-spinner {
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    border: 2px solid var(--ts-line);
+    border-top-color: var(--ts-ink);
+    animation: ts-spin 0.8s linear infinite;
+}
+/* ── Bookmark ribbon (the reopen trigger) ─────────────────────────────── */
+
+.ts-ribbon {
+    position: fixed !important;
+    top: var(--ts-ribbon-top, 64px);
+    inset-inline-end: 28px;
+    z-index: 45;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 34px;
+    height: 52px;
+    padding: 9px 0 0 !important;
+    color: #ffffff !important;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--ts-tip) 82%, #000), var(--ts-tip)) !important;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 86%, 0 100%);
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+    transition: height 0.4s var(--ts-ease);
+    animation: ts-ribbon-in 0.7s var(--ts-ease) 0.4s both;
+}
+.ts-ribbon:hover,
+.ts-ribbon:focus-visible {
+    height: 168px;
+}
+.ts-ribbon-glyph {
+    display: inline-grid;
+    place-items: center;
+}
+.ts-ribbon-label {
+    writing-mode: vertical-rl;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.25s 0.1s;
+}
+.ts-ribbon:hover .ts-ribbon-label,
+.ts-ribbon:focus-visible .ts-ribbon-label {
+    opacity: 1;
+}
+.ts-ribbon-current {
+    font-weight: 500;
+    opacity: 0.85;
+}
+@media (max-width: 1023px) {
+    .ts-ribbon {
+        top: var(--ts-ribbon-top-mobile, 56px);
+        inset-inline-end: 64px;
+        width: 30px;
+        height: 44px;
+    }
+}
+/* ── Staff preview chip ───────────────────────────────────────────────── */
+
+.ts-preview {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    z-index: 2147483640;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100vw - 24px);
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: #ffd54a;
+    color: #1c1a17;
+    font-size: 13px;
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.45);
+}
+.ts-preview a {
+    color: inherit !important;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.ts-preview-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #c8243a;
+    animation: ts-blink 1.4s ease-in-out infinite;
+}
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+    .ts-body {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+    .ts-book {
+        min-height: 0;
+    }
+    .ts-shelf {
+        justify-content: flex-start;
+        overflow-x: auto;
+        height: 220px;
+        padding-top: 24px;
+        scrollbar-width: none;
+    }
+    .ts-shelf::-webkit-scrollbar {
+        display: none;
+    }
+    .ts-spine {
+        flex: 0 0 44px;
+    }
+}
+@media (max-width: 640px) {
+    .ts-frame {
+        padding: 0;
+        place-items: end stretch;
+    }
+    .ts-panel {
+        width: 100%;
+        max-height: 92dvh;
+        border-radius: 22px 22px 0 0;
+        animation-name: ts-sheet;
+    }
+    .ts-head,
+    .ts-body,
+    .ts-foot {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+    .ts-head {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+    .ts-head-tools {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .ts-book {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 14px;
+    }
+    .ts-spinefold {
+        display: none;
+    }
+    .ts-page--right {
+        padding: 14px 2px 2px;
+    }
+    .ts-desc {
+        display: none;
+    }
+    .ts-mini-stage {
+        font-size: clamp(6px, 2.4vw, 9px);
+    }
+    .ts-foot {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ts-actions {
+        flex-direction: column-reverse;
+    }
+}
+/* ── Motion ───────────────────────────────────────────────────────────── */
+
+@keyframes ts-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes ts-rise {
+    from { opacity: 0; transform: translateY(18px) scale(0.985); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes ts-sheet {
+    from { transform: translateY(100%); }
+    to { transform: none; }
+}
+@keyframes ts-slide {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes ts-turn-right {
+    from { opacity: 0; transform: rotateY(-75deg); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes ts-turn-left {
+    from { opacity: 0.2; transform: rotateY(18deg) scale(0.97); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes ts-zoom {
+    from { opacity: 0; transform: scale(0.6) translateY(30px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes ts-spin {
+    to { transform: rotate(360deg); }
+}
+@keyframes ts-blink {
+    50% { opacity: 0.25; }
+}
+@keyframes ts-ribbon-in {
+    from { transform: translateY(-100%); }
+    to { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .ts-root *,
+    .ts-root *::before,
+    .ts-root *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+/*
+|--------------------------------------------------------------------------
+| Miniatures (.tp-*) — one composition per theme, sized in em
+|--------------------------------------------------------------------------
+| Designed on a 30em × 40em page. Colours only from `--p-*` (the registry
+| swatches), so a miniature is correct in both modes without the theme's CSS.
+*/
+
+.tp-root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+    width: 30em;
+    height: 40em;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 1.4em;
+    border-radius: 0.6em;
+    background: var(--p-bg);
+    color: var(--p-ink);
+    box-shadow: inset 0 0 0 1px var(--p-line);
+    font-family: var(--ts-font, system-ui, sans-serif);
+    transition: background-color 0.4s;
+}
+.tp-root span {
+    display: block;
+}
+.tp-cover {
+    aspect-ratio: 2 / 3;
+    border-radius: min(var(--p-radius), 0.5em);
+    background: var(--p-accent);
+}
+.tp-cover:nth-child(even) {
+    background: var(--p-accent2);
+}
+.tp-cover:nth-child(3n) {
+    background: var(--p-muted);
+}
+.tp-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    height: 2.4em;
+    padding: 0 0.8em;
+    background: var(--p-surface);
+    border-radius: min(var(--p-radius), 0.8em);
+    box-shadow: inset 0 0 0 1px var(--p-line);
+}
+.tp-logo {
+    width: 1.4em;
+    height: 1.4em;
+    border-radius: 0.4em;
+    background: var(--p-accent);
+}
+.tp-link {
+    width: 3em;
+    height: 0.5em;
+    border-radius: 1em;
+    background: var(--p-muted);
+    opacity: 0.55;
+}
+.tp-grow {
+    flex: 1;
+}
+.tp-pill {
+    width: 4em;
+    height: 1.4em;
+    border-radius: 1em;
+    background: var(--p-accent);
+}
+.tp-heading {
+    width: 40%;
+    height: 0.8em;
+    border-radius: 0.3em;
+    background: var(--p-ink);
+    opacity: 0.8;
+}
+.tp-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.7em;
+}
+/* ── Daylight Civic ─────────────────────────────────────────────────────── */
+.tp--civic .tp-cv-search { width: 9em; height: 1.1em; border-radius: 1em; background: var(--p-surface); box-shadow: inset 0 0 0 0.08em var(--p-line); }
+.tp--civic .tp-cv-city { display: block; width: 12em; height: 2.6em; margin: 1.2em 0 0.9em; border-radius: 0.3em; background: var(--p-ink); }
+.tp--civic .tp-cv-bento { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 4em 4em; gap: 0.6em; }
+.tp--civic .tp-cv-bento .tp-cover { border: 0.1em solid var(--p-ink); box-shadow: 0.15em 0.15em 0 var(--p-ink); border-radius: var(--p-radius); }
+.tp--civic .tp-cv-lead { grid-row: span 2; position: relative; }
+.tp--civic .tp-cv-stamp { position: absolute; top: 0.5em; left: 0.5em; width: 1.6em; height: 1.8em; border-radius: 0.25em; background: var(--p-accent2); border: 0.1em solid var(--p-ink); }
+.tp--civic .tp-cv-rows { display: grid; gap: 0.4em; margin-top: 1em; padding: 0.6em; border-radius: var(--p-radius); background: var(--p-surface); box-shadow: inset 0 0 0 0.08em var(--p-line); }
+.tp--civic .tp-cv-rows span { height: 0.9em; border-radius: 0.2em; background: var(--p-muted); opacity: 0.5; }
+/* ── Marquee ────────────────────────────────────────────────────────────── */
+.tp--marquee { padding-top: 0 !important; }
+.tp--marquee .tp-mq-band { display: flex; align-items: center; gap: 0.6em; margin: 0 -1.2em 1em; padding: 0.7em 1.2em; background: var(--p-ink); }
+.tp--marquee .tp-mq-logo { width: 5em; height: 1.1em; background: var(--p-bg); }
+.tp--marquee .tp-mq-cta { width: 3.2em; height: 1.2em; background: var(--p-accent2); }
+.tp--marquee .tp-mq-bill { display: grid; gap: 0.5em; }
+.tp--marquee .tp-mq-line { display: flex; align-items: center; gap: 0.7em; padding-bottom: 0.5em; border-bottom: 0.06em solid var(--p-line); }
+.tp--marquee .tp-mq-date { width: 2.2em; height: 2.4em; background: var(--p-muted); }
+.tp--marquee .tp-mq-act { width: var(--w); height: 2.4em; background: var(--p-ink); }
+.tp--marquee .tp-mq-ticker { display: flex; gap: 0.6em; margin: 1em -1.2em 0; padding: 0.4em 1.2em; background: var(--p-ink); overflow: hidden; }
+.tp--marquee .tp-mq-ticker span { flex: 0 0 6em; height: 0.7em; background: var(--p-accent2); }
+/* ── Almanac ────────────────────────────────────────────────────────────── */
+.tp--almanac .tp-al-mast { display: grid; justify-items: center; gap: 0.5em; padding: 0.6em 0; border-top: 0.18em solid var(--p-ink); border-bottom: 0.06em solid var(--p-line); }
+.tp--almanac .tp-al-title { width: 11em; height: 1.8em; border-radius: 0.2em; background: var(--p-ink); }
+.tp--almanac .tp-al-rule { width: 70%; height: 0.08em; background: var(--p-line); }
+.tp--almanac .tp-al-cols { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 1em; }
+.tp--almanac .tp-al-col { display: grid; gap: 0.45em; padding: 0 0.6em; border-inline-start: 0.06em solid var(--p-line); }
+.tp--almanac .tp-al-col:first-child { border-inline-start: 0; }
+.tp--almanac .tp-al-dateline { width: 3em; height: 1.2em; border-radius: 0.2em; background: var(--p-accent); }
+.tp--almanac .tp-cover { height: 5em; border-radius: var(--p-radius); box-shadow: 0 0.4em 0.9em -0.4em rgba(60, 40, 20, 0.45); }
+.tp--almanac .tp-al-text { height: 0.6em; border-radius: 0.2em; background: var(--p-muted); opacity: 0.6; }
+.tp--almanac .tp-al-text.tp-short { width: 60%; }
